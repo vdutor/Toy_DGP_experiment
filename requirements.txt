@@ -1,0 +1,6 @@
+git+https://github.com/GPflow/GPflow.git@2c4cf398a248242298fd1c45125392839fe90b05
+tensorflow==1.5.0
+sklearn
+scikit-learn
+scipy
+matplotlib

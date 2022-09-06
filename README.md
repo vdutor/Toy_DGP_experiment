@@ -1,9 +1,9 @@
 > :warning: **This is old, untested and undocumented code. It's only use-case is to reproduce the experiment below using the original code**. The original experiment and the code in `experiment.py` was written by Hugh Salimbeni for the paper [Deep Gaussian Processes with Importance-Weighted Variational Inference](https://arxiv.org/pdf/1905.05435.pdf). The code under `src` is an early version of [GPflux](https://github.com/secondmind-labs/GPflux).
 
 
-# Toy Deep Gaussian Process experiment
+# Toy Deep Gaussian Process Experiment
 
-Code to reproduce experiment Fig. 1 from [Salimbeni et al. (2018)](https://arxiv.org/pdf/1905.05435.pdf) and Fig. 7 [Leibfried et al. (2021)](https://arxiv.org/abs/2012.13962).
+Code to reproduce experiment Fig. 1 from [Salimbeni et al. (2018)](https://arxiv.org/pdf/1905.05435.pdf) and Fig. 7 from [Leibfried et al. (2021)](https://arxiv.org/abs/2012.13962).
 
 <table>
   <tr>
@@ -30,7 +30,7 @@ The experiment uses a (very) early version of [GPflux](https://github.com/second
 
 Step 1.
 
-Create a virtual environment with python 3.6, using for example [anaconda](https://docs.conda.io/en/latest/miniconda.html). After a successful installation of (mini) conda, a new virtual env can be created and activated using
+Create a virtual environment with Python 3.6, using for example [anaconda](https://docs.conda.io/en/latest/miniconda.html). After a successful installation of (mini) conda, a new virtual env can be created and activated using
 ```bash
 conda create -n py36 python=3.6  && conda activate py36
 ```

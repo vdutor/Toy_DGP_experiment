@@ -3,7 +3,7 @@
 
 # Toy Deep Gaussian Process experiment
 
-Code to reproduce experiment Fig 1. from [Salimbeni et al. (2018)](https://arxiv.org/pdf/1905.05435.pdf) and Fig. 7 [Leibfried et al. (2021)](https://arxiv.org/abs/2012.13962).
+Code to reproduce experiment Fig. 1 from [Salimbeni et al. (2018)](https://arxiv.org/pdf/1905.05435.pdf) and Fig. 7 [Leibfried et al. (2021)](https://arxiv.org/abs/2012.13962).
 
 <table>
   <tr>

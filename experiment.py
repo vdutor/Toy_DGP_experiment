@@ -105,7 +105,6 @@ def make_model(X, Y):
     with defer_build():
         lik = Gaussian()
         lik.variance = ARGS.likelihood_variance
-        #     lik.variance.set_trainable(False)
 
         layers = []
         quad_layers = []
@@ -133,7 +132,7 @@ def make_model(X, Y):
                     else:
                         d = min(
                             int(d), DX
-                        )  # or else need to pad PX, but probably not much point having extra dims
+                        )
                         l = GPLayer(kern, InducingPoints(Z), d, input_prop=True)
                         layers.append(l)
                         P = np.concatenate([PX[:, :d], np.eye(D)], 1).T
@@ -147,7 +146,7 @@ def make_model(X, Y):
                     Z = np.concatenate([Z, np.random.randn(Z.shape[0], d)], 1)
                     PX = np.concatenate([PX, np.zeros((d, DX))], 0)
                     encoder = (
-                        None  # gpflux.encoders.DirectlyParameterized(d, X.shape[0])
+                        None
                     )
                     if ARGS.mode == "VI":
                         layer = LatentVariableConcatLayer(
@@ -160,7 +159,6 @@ def make_model(X, Y):
                         )
                         quad_layers.append(layer)
                         layers.append(layer)
-                    # layer.prior_std.set_trainable(False)
 
         kern = RBF(
             D, lengthscales=ARGS.lengthscale * float(D) ** 0.5, variance=1.0, ARD=True
@@ -216,7 +214,6 @@ def plot_prior(model):
             os.path.join(ARGS.figs_path, "prior_{}_{}.png".format(model.model_name, i)),
             bbox_inches="tight",
         )
-        # plt.show()
         plt.close()
 
 
@@ -249,7 +246,6 @@ def plot_posterior(model, X, Y):
         fig, ax1 = plt.subplots(1, 1, figsize=(10, 8))
         ax1.axis("off")
         ax1.pcolor(Xs.flatten(), levels, np.exp(l), cmap=colormap)
-        # ax1.contour(Xs.flatten(), levels, np.exp(l), cmap='Blues_r', zorder=2)
 
         plt.savefig(
             os.path.join(
@@ -257,7 +253,6 @@ def plot_posterior(model, X, Y):
             ),
             bbox_inches="tight",
         )
-        # ind = np.random.choice(len(X), 1000)
         ax1.scatter(X, Y, marker=".", color="C1", alpha=0.2, s=1, zorder=1)
         plt.savefig(
             os.path.join(
@@ -265,7 +260,6 @@ def plot_posterior(model, X, Y):
             ),
             bbox_inches="tight",
         )
-    # plt.show()
     print("plot posterior -- END")
     return fig
 
@@ -296,9 +290,6 @@ def train(model):
                 gamma_inners.append(gamma)
 
         sess.run(tf.variables_initializer(gamma_inners))
-
-        #     op_adam = AdamOptimizer(ARGS.lr).make_optimize_tensor(model)
-        #     op_increment = tf.assign_add(global_step, 1)
 
     op_increase_gamma_inners = [
         tf.assign(g, tf.where(g * 1.1 < ARGS.gamma, g * 1.1, g)) for g in gamma_inners
@@ -339,7 +330,7 @@ def train(model):
         mon.ModelToTensorBoardTask(writer, model)
         .with_name("tensorboard")
         .with_condition(mon.PeriodicIterationCondition(ARGS.tensorboard_freq))
-    )  # .with_exit_condition(True)
+    )
 
     plot_task = (
         mon.ImageToTensorBoardTask(
@@ -350,7 +341,7 @@ def train(model):
         .with_exit_condition(True)
     )
 
-    monitor_tasks = [print_task]  # , tensorboard_task, checkpoint_task, plot_task]
+    monitor_tasks = [print_task]
 
     ###############################
 
@@ -363,8 +354,6 @@ def train(model):
         print(sess.run(global_step))
 
         for it in range(max([ARGS.iterations - sess.run(global_step), 0])):
-
-            # print('{} {} {}'.format(sess.run(global_step), socket.gethostname(), file_name))
 
             sess.run(op_increment)
             monitor()
@@ -379,8 +368,6 @@ def train(model):
                 g_new = sess.run(gamma_inners[0])
                 s = "gamma = {} on iteration {} is too big! Falling back to {}"
                 print(s.format(it, g_old, g_new))
-
-            #         sess.run(op_adam)
 
             sess.run(op_ng)
             sess.run(op_adam)

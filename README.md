@@ -3,7 +3,7 @@
 
 # Toy Deep Gaussian Process experiment
 
-Code to reproduce experiment Fig 1. from [Salimbeni et al. (2018)](https://arxiv.org/pdf/1905.05435.pdf) and Fig. 7 [Leibfried et al. 2021](https://arxiv.org/abs/2012.13962).
+Code to reproduce experiment Fig 1. from [Salimbeni et al. (2018)](https://arxiv.org/pdf/1905.05435.pdf) and Fig. 7 [Leibfried et al. (2021)](https://arxiv.org/abs/2012.13962).
 
 <table>
   <tr>
@@ -48,8 +48,18 @@ pip install -r requirements.txt
 
 From the repo's root directory run
 ```bash
-python experiment.py \
-    --configuration {G1,G1_G1,L1_G1,L1_G1_G1} \
-    --mode {VI,IWAE}
+python experiment.py --configuration G1 --mode VI
 ```
-which will create the model, train and evaluate it. The results will be stored in the directory `results`.
+which will create a shallow sparse GP model, train and evaluate it. The results will be stored in the directory `results`. For a latent-variable shallow sparse GP model, run
+```bash
+python experiment.py --configuration L1_G1 --mode VI
+```
+and for deep sparse GP versions of the former (with two layers each) run
+```bash
+python experiment.py --configuration G1_G1 --mode VI
+```
+and
+```bash
+python experiment.py --configuration L1_G1_G1 --mode VI
+```
+Note that each experiment will create separate folders in the `results` directory.
